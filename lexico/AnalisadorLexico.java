@@ -63,6 +63,12 @@ public class AnalisadorLexico {
                         } else if (eCaracterEspecial(caracter)) {
                             termo += caracter;
                             estado = 2;
+                        } else if (eDigito(caracter)) {
+                            termo += caracter;
+                            estado = 3;
+                        } else if (caracter == '"') {
+                            termo += caracter;
+                            estado = 4;
                         }
                         break;
                     case 1:
@@ -70,6 +76,8 @@ public class AnalisadorLexico {
                             termo += caracter;
                         } else if (ePalavraReservada(termo)) {
                             return new Token(Token.PALAVRA_RESERVADA, termo, linha, coluna++);
+                        } else if (eConstanteBooleana(termo)) {
+                            return new Token(Token.CONSTANTE_LOGICA, termo, linha, coluna++);
                         } else {
                             return new Token(Token.IDENTIFICADOR, termo, linha, coluna++);
                         }
@@ -80,7 +88,21 @@ public class AnalisadorLexico {
                             return converteCaracterEspecial(termo);
                         }
                         break;
-                    default:
+                    case 3:
+                        if (eDigito(caracter)) {
+                            termo += caracter;
+                        } else if (eDelimitadorDeToken(caracter)){
+                            return new Token(Token.CONSTANTE_INTEIRA, termo, linha, coluna++);
+                        } else {
+                            termo += caracter;
+                            throw new LexicoException(termo, linha, coluna);
+                        }
+                        break;
+                    case 4:
+                        termo += caracter;
+                        if (caracter == '"') {
+                            return new Token(Token.CONSTANTE_LITERAL, termo, linha, coluna++); 
+                        }
                         break;
                 }
 
@@ -92,6 +114,10 @@ public class AnalisadorLexico {
         }
 
         return null;
+    }
+
+    private boolean eConstanteBooleana(String termo) {
+        return termo.equals("verdadeiro") || termo.equals("falso");
     }
 
     private Token converteCaracterEspecial(String termo) throws LexicoException {
@@ -123,6 +149,10 @@ public class AnalisadorLexico {
 
     private boolean eEspaco(char c) {
         return c == ' ';
+    }
+    
+    private boolean eDelimitadorDeToken(char c) {
+        return c == ' ' || c == ';';
     }
 
     private boolean eNovaLinha(int caracter) {

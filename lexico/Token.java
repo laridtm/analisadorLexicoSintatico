@@ -8,6 +8,7 @@ public class Token {
     public static final String CONST_LITERAL = "constante_literal";
     public static final String CONST_BOOL = "constante_logica";
     public static final String DELIMITER = "delimitador";
+    public static final String MATH_OPERATOR = "operador_matematico";
     public static final String OPERATOR = "operador";
     public static final String OPEN_BRACE = "abre_chave";
     public static final String CLOSE_BRACE = "fecha_chave";

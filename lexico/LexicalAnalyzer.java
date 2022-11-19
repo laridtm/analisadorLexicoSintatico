@@ -133,30 +133,31 @@ public class LexicalAnalyzer {
         return null;
     }
 
-    private Token specialCharacterToToken(String termo) throws LexicalException {
+    private Token specialCharacterToToken(String term) throws LexicalException {
         //Remove espaco em branco do termo
-        switch (termo.replaceAll("\\s+", "")) {
+        switch (term.replaceAll("\\s+", "")) {
             case "+":
             case "*":
             case "-":
             case "/":
+                return new Token(Token.MATH_OPERATOR, term, line, column);
             case "<":
             case ">":
             case "<=":
             case ">=":
             case "==":
             case "!=":
-                return new Token(Token.OPERATOR, termo, line, column);
+                return new Token(Token.OPERATOR, term, line, column);
             case "=":
-                return new Token(Token.ASSIGN, termo, line, column);
+                return new Token(Token.ASSIGN, term, line, column);
             case "{":
-                return new Token(Token.OPEN_BRACE, termo, line, column);
+                return new Token(Token.OPEN_BRACE, term, line, column);
             case "}":
-                return new Token(Token.CLOSE_BRACE, termo, line, column);
+                return new Token(Token.CLOSE_BRACE, term, line, column);
             case ";":
-                return new Token(Token.DELIMITER, termo, line, column);
+                return new Token(Token.DELIMITER, term, line, column);
             default: 
-                throw new LexicalException(termo, line, column);
+                throw new LexicalException(term, line, column);
         }
     }
 

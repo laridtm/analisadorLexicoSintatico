@@ -1,4 +1,4 @@
-package lexico;
+package lexical;
 
 public class Token {
     public static final String RESERVED_KEYWORD = "palavra_reservada";

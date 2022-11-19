@@ -1,8 +1,8 @@
 //java Principal.java program_sample.txt
 import java.util.List;
 
-import lexico.LexicalAnalyzer;
-import lexico.Token;
+import lexical.LexicalAnalyzer;
+import lexical.Token;
 
 public class Main {
     public static void main(String[] args) {

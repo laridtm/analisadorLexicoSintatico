@@ -1,4 +1,4 @@
-package lexico;
+package lexical;
 
 public class LexicalException extends Exception {
     public LexicalException(String term, int line, int column) {

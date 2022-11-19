@@ -123,7 +123,7 @@ public class LexicalAnalyzer {
                 return specialCharacterToToken(term);
             }
 
-            if (state != S0 && isEOF(currentChar)) {
+            if (state != S0) {
                 throw new LexicalException(term, line, column);
             }
         } catch (IOException e) {

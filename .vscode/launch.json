@@ -6,9 +6,9 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Launch Principal",
+            "name": "Launch Main",
             "request": "launch",
-            "mainClass": "Principal",
+            "mainClass": "Main",
             "projectName": "analisadorLexicoSintatico_9435e630",
             "args": "${workspaceFolder}/program_sample.txt"
         }

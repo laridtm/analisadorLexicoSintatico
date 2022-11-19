@@ -1,63 +1,63 @@
 package lexico;
 
 public class Token {
-    public static final String PALAVRA_RESERVADA = "palavra_reservada";
-    public static final String IDENTIFICADOR = "identificador";
-    public static final String ATRIBUICAO = "atribuicao";
-    public static final String CONSTANTE_INTEIRA = "constante_inteira";
-    public static final String CONSTANTE_LITERAL = "constante_literal";
-    public static final String CONSTANTE_LOGICA = "constante_logica";
-    public static final String DELIMITADOR = "delimitador";
-    public static final String OPERADOR = "operador";
-    public static final String ABRE_CHAVE = "abre_chave";
-    public static final String FECHA_CHAVE = "fecha_chave";
+    public static final String RESERVED_KEYWORD = "palavra_reservada";
+    public static final String IDENTIFIER = "identificador";
+    public static final String ASSIGN = "atribuicao";
+    public static final String CONST_INTEGER = "constante_inteira";
+    public static final String CONST_LITERAL = "constante_literal";
+    public static final String CONST_BOOL = "constante_logica";
+    public static final String DELIMITER = "delimitador";
+    public static final String OPERATOR = "operador";
+    public static final String OPEN_BRACE = "abre_chave";
+    public static final String CLOSE_BRACE = "fecha_chave";
 
-    private String tipo;
-    private String termo;
-    private int linha;
-    private int coluna;
+    private String type;
+    private String term;
+    private int line;
+    private int column;
     
     public Token(String tipo, String termo, int linha, int coluna) {
-        this.tipo = tipo;
-        this.termo = termo;
-        this.linha = linha;
-        this.coluna = coluna;
+        this.type = tipo;
+        this.term = termo;
+        this.line = linha;
+        this.column = coluna;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getType() {
+        return type;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setType(String typo) {
+        this.type = typo;
     }
 
-    public String getTermo() {
-        return termo;
+    public String getTerm() {
+        return term;
     }
 
-    public void setTermo(String termo) {
-        this.termo = termo;
+    public void setTerm(String term) {
+        this.term = term;
     }
 
-    public int getLinha() {
-        return linha;
+    public int getLine() {
+        return line;
     }
 
-    public void setLinha(int linha) {
-        this.linha = linha;
+    public void setLine(int line) {
+        this.line = line;
     }
 
-    public int getColuna() {
-        return coluna;
+    public int getColumn() {
+        return column;
     }
 
-    public void setColuna(int coluna) {
-        this.coluna = coluna;
+    public void setColumn(int column) {
+        this.column = column;
     }
 
     @Override
     public String toString() {
-        return "Token [tipo = " + tipo + " termo = " + termo + " linha = "+ linha + " coluna = " + coluna +"]";
+        return "Token [tipo = " + type + " termo = " + term + " linha = "+ line + " coluna = " + column +"]";
     }
 }

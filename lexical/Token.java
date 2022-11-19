@@ -25,6 +25,11 @@ public class Token {
         this.column = coluna;
     }
 
+    public Token(String tipo, String termo) {
+        this.type = tipo;
+        this.term = termo;
+    }
+
     public String getType() {
         return type;
     }

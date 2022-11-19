@@ -34,21 +34,7 @@ public class LexicalAnalyzer {
         }
     }
 
-    public List<Token> analyze() {
-        List<Token> tokens = new ArrayList<Token>();
-        try {
-            Token token = nextToken();
-            while (token != null) {
-                tokens.add(token);
-                token = nextToken();
-            }
-        } catch (LexicalException e) {
-            System.err.println(e.getMessage());
-        }
-        return tokens;
-    }
-
-    private Token nextToken() throws LexicalException {
+    public Token nextToken() throws LexicalException {
         try {
             String term = "";
             int state = S0;

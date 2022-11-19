@@ -3,6 +3,7 @@ import java.util.List;
 
 import lexical.LexicalAnalyzer;
 import lexical.Token;
+import syntax.SyntaxAnalyzer;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,10 +13,8 @@ public class Main {
         }
 
         LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer(args[0]);
-        List<Token> tokens = lexicalAnalyzer.analyze();
+        SyntaxAnalyzer syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyzer);
 
-        for (Token token : tokens) {
-            System.out.println(token.toString());
-        }
+        syntaxAnalyzer.analyze();
     }
 }

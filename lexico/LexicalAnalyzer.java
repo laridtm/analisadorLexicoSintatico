@@ -12,6 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LexicalAnalyzer {
+    public static final int S0 = 0; // Initial State
+    public static final int S1 = 1; // Character
+    public static final int S2 = 2; // Special Character
+    public static final int S3 = 3; // Cont Int
+    public static final int S4 = 4; // Cont Literal
+    public static final int S5 = 5; // Final State
+
     private BufferedReader buffer;
     private int column = 1, line = 1;
 
@@ -44,10 +51,10 @@ public class LexicalAnalyzer {
     private Token nextToken() throws LexicalException {
         try {
             String term = "";
-            int state = 0;
+            int state = S0;
             int currentChar = buffer.read();
 
-            while (currentChar != -1) {
+            while (!isEOF(currentChar)) {
                 if (isNewLine(currentChar)) {
                     column = 1;
                     line++;
@@ -56,22 +63,23 @@ public class LexicalAnalyzer {
                 // Transforma o numero da tabela ASCII em char
                 char character = (char) currentChar;
                 switch (state) {
-                    case 0:
+                    case S0:
+                        term += character;
                         if (isCharacter(character)) {
-                            term += character;
-                            state = 1;
+                            state = S1;
+                            break;
                         } else if (isSpecialCharacter(character)) {
-                            term += character;
-                            state = 2;
+                            state = S2;
+                            break;
                         } else if (isDigit(character)) {
-                            term += character;
-                            state = 3;
+                            state = S3;
+                            break;
                         } else if (character == '"') {
-                            term += character;
-                            state = 4;
+                            state = S4;
+                            break;
                         }
-                        break;
-                    case 1:
+                        throw new LexicalException(term, line, column);
+                    case S1:
                         if (isCharacter(character) || isDigit(character)) {
                             term += character;
                         } else if (isReservedKeyword(term)) {
@@ -82,13 +90,13 @@ public class LexicalAnalyzer {
                             return new Token(Token.IDENTIFIER, term, line, column++);
                         }
                         break;
-                    case 2:
+                    case S2:
                         term += character;
                         if (!isSpecialCharacter(character)) {
                             return specialCharacterToToken(term);
                         }
                         break;
-                    case 3:
+                    case S3:
                         if (isDigit(character)) {
                             term += character;
                         } else if (isTokenDelimiter(character)){
@@ -98,7 +106,7 @@ public class LexicalAnalyzer {
                             throw new LexicalException(term, line, column);
                         }
                         break;
-                    case 4:
+                    case S4:
                         term += character;
                         if (character == '"') {
                             return new Token(Token.CONST_LITERAL, term, line, column++); 
@@ -108,6 +116,15 @@ public class LexicalAnalyzer {
 
                 column++;
                 currentChar = buffer.read();
+            }
+
+            // Ultimo char do programa é um caracter especial
+            if (state == S2) {
+                return specialCharacterToToken(term);
+            }
+
+            if (state != S0 && isEOF(currentChar)) {
+                throw new LexicalException(term, line, column);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -143,20 +160,20 @@ public class LexicalAnalyzer {
         }
     }
 
+    private boolean isEOF(int character) {
+        return character == -1;
+    }
+
     private boolean isBooleanConst(String termo) {
         return termo.equals("verdadeiro") || termo.equals("falso");
     }
 
-    private boolean isSpace(char c) {
-        return c == ' ';
-    }
-    
     private boolean isTokenDelimiter(char c) {
         return c == ' ' || c == ';';
     }
 
-    private boolean isNewLine(int caracter) {
-        if (caracter == 13 || caracter == 10) {
+    private boolean isNewLine(int character) {
+        if (character == 13 || character == 10) {
             return true;
         }
         return false;

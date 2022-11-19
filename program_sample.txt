@@ -1,1 +1,1 @@
-var qualquerNome = "qualquercoisa658384 sdgsds < dfds<& ! ;
+var qualquerNome = "qualquercoisa658384 sdgsds < dfds<& ! ;";

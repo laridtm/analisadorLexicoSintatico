@@ -1,7 +1,7 @@
 <programa> ::= "classe" <identificador> <abre_chave> <bloco> <fecha_chave>
-<bloco> ::= <declaracao> | <valoracao> | <estrutura_se> | <loop>
+<bloco> ::= (<declaracao> | <valoracao> | <estrutura_se> | <estrutura_enquanto>)+
 <declaracao> ::= "var" <valoracao>
-<valoracao> ::= <identificador> <atribuicao> (<constante_logica> | <constante_inteira> | <constante_literal>) <delimitador>
+<valoracao> ::= <identificador> <atribuicao> <termo> <delimitador>
 
 <estrutura_se> ::= "se" <condicao> <abre_chave> <bloco> <fecha_chave> ["senao" <abre_chave> <bloco> <fecha_chave>]
 <condicao> ::= <constante_logica> | <expressao>

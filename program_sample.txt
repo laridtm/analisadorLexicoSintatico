@@ -1,2 +1,7 @@
 classe Qualquer {
+var identificador = 20 ;
+var outroIdentificador = 30 ;
+se verdadeiro {
+outroIdentificador = 40 ;
+}
 }

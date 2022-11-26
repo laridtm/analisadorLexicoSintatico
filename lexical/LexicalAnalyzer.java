@@ -76,6 +76,9 @@ public class LexicalAnalyzer {
                         } else if (isReservedKeyword(term)) {
                             return new Token(Token.RESERVED_KEYWORD, term, line, column++);
                         } else if (isBooleanConst(term)) {
+                            if(isTokenDelimiter(character)) {
+                                charList.add(currentChar);
+                            }
                             return new Token(Token.CONST_BOOL, term, line, column++);
                         } else {
                             charList.add(currentChar);

@@ -45,14 +45,15 @@ public class SyntaxAnalyzer {
                     } else if(currentToken.getTerm().equals("enquanto")) {
                         whileStatement();
                     } else {
-                        throw new SyntaxException(Token.RESERVED_KEYWORD, "var, se, enquanto", currentToken);
+                        String expected = Token.RESERVED_KEYWORD + "(var, se, enquanto)";
+                        throw new SyntaxException(expected, currentToken);
                     }
                     break;
                 case Token.IDENTIFIER:
                     valuation();
                     break;
                 default:
-                throw new SyntaxException(Token.RESERVED_KEYWORD + ", " + Token.IDENTIFIER, currentToken.getType());
+                throw new SyntaxException(Token.RESERVED_KEYWORD + ", " + Token.IDENTIFIER, currentToken);
             }
 
             nextToken();
@@ -105,7 +106,7 @@ public class SyntaxAnalyzer {
     private void term() throws Exception {
         String[] allowedTokens = new String[]{Token.CONST_INTEGER, Token.CONST_LITERAL, Token.CONST_BOOL, Token.IDENTIFIER};
         if(!Arrays.asList(allowedTokens).contains(currentToken.getType())) {
-            throw new SyntaxException(String.join(", ", allowedTokens), currentToken.getType());
+            throw new SyntaxException(String.join(", ", allowedTokens), currentToken);
         }
     }
 
@@ -124,7 +125,8 @@ public class SyntaxAnalyzer {
     private void reservedKeyWord(String keyword) throws Exception {
         nextToken();
         if(!tokenIs(Token.RESERVED_KEYWORD) || !currentToken.getTerm().equals(keyword)) {
-            throw new SyntaxException(Token.RESERVED_KEYWORD, keyword, currentToken);
+            String expected = Token.RESERVED_KEYWORD + "(" + keyword + ")";
+            throw new SyntaxException(expected, currentToken);
         }
     }
 
@@ -135,11 +137,11 @@ public class SyntaxAnalyzer {
 
     private void assertTokenIs(String type) throws Exception {
         if (currentToken == null) {
-            throw new SyntaxException(type, "null");
+            throw new SyntaxException(type, null);
         }
 
         if(!tokenIs(type)) {
-            throw new SyntaxException(type, currentToken.getType());
+            throw new SyntaxException(type, currentToken);
         }
     }
 

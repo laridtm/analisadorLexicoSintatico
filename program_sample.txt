@@ -1,21 +1,11 @@
+classe teste {
+    var boateAberta = verdadeiro;
 
-
-classe teste  {
-
-enquanto identificador == 3 {
-    outroIdentificador = 3;
-
-}
-
-
-var identificador = "a laranja é laranja" ;     
-
-
-var outroIdentificador = 30;
-var outroIdentificador = identificador;
-se verdadeiro {
-outroIdentificador = 40 ;
-} senao {
-    teste = 3;
-}
+    enquanto boateAberta == verdadeiro {
+         se idade >= 18 {
+            permissao = verdadeiro;
+        } senao {
+            permissao = falso; 
+        }
+    }
 }

@@ -20,6 +20,7 @@ public class LexicalAnalyzer {
     public static final int S5 = 5; // Final State
 
     private BufferedReader buffer;
+    private List<Integer> charList = new ArrayList<Integer>();
     private int column = 1, line = 1;
 
     public LexicalAnalyzer(String fileName) {
@@ -38,7 +39,7 @@ public class LexicalAnalyzer {
         try {
             String term = "";
             int state = S0;
-            int currentChar = buffer.read();
+            int currentChar = readChar();
 
             while (!isEOF(currentChar)) {
                 if (isNewLine(currentChar)) {
@@ -50,6 +51,10 @@ public class LexicalAnalyzer {
                 char character = (char) currentChar;
                 switch (state) {
                     case S0:
+                        if(shouldSkip(currentChar)) {
+                            break;
+                        }
+
                         term += character;
                         if (isCharacter(character)) {
                             state = S1;
@@ -73,6 +78,7 @@ public class LexicalAnalyzer {
                         } else if (isBooleanConst(term)) {
                             return new Token(Token.CONST_BOOL, term, line, column++);
                         } else {
+                            charList.add(currentChar);
                             return new Token(Token.IDENTIFIER, term, line, column++);
                         }
                         break;
@@ -85,7 +91,10 @@ public class LexicalAnalyzer {
                     case S3:
                         if (isDigit(character)) {
                             term += character;
-                        } else if (isTokenDelimiter(character)){
+                        } else if (isTokenDelimiter(character) || isSpace(character) || isNewLine(character)) {
+                            if(isTokenDelimiter(character)) {
+                                charList.add(currentChar);
+                            }
                             return new Token(Token.CONST_INTEGER, term, line, column++);
                         } else {
                             term += character;
@@ -101,7 +110,7 @@ public class LexicalAnalyzer {
                 }
 
                 column++;
-                currentChar = buffer.read();
+                currentChar = readChar();
             }
 
             // Ultimo char do programa é um caracter especial
@@ -117,6 +126,13 @@ public class LexicalAnalyzer {
         }
 
         return null;
+    }
+
+    private int readChar() throws IOException {
+        if (!charList.isEmpty()) {
+            return charList.remove(0);
+        }
+        return buffer.read();
     }
 
     private Token specialCharacterToToken(String term) throws LexicalException {
@@ -156,7 +172,15 @@ public class LexicalAnalyzer {
     }
 
     private boolean isTokenDelimiter(char c) {
-        return c == ' ' || c == ';';
+        return c == ';';
+    }
+
+    private boolean shouldSkip(int character) {
+        return isNewLine(character) || isSpace(character);
+    }
+
+    private boolean isSpace(int character) {
+        return character == 32;
     }
 
     private boolean isNewLine(int character) {

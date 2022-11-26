@@ -35,7 +35,7 @@ public class SyntaxAnalyzer {
     private void codeBlock() throws Exception {
         nextToken();
 
-        while (!tokenIs(Token.CLOSE_BRACE)) {
+        while (currentToken != null && !tokenIs(Token.CLOSE_BRACE)) {
             switch (currentToken.getType()) {
                 case Token.RESERVED_KEYWORD:
                     if(currentToken.getTerm().equals("var")) {
@@ -134,6 +134,10 @@ public class SyntaxAnalyzer {
     }
 
     private void assertTokenIs(String type) throws Exception {
+        if (currentToken == null) {
+            throw new SyntaxException(type, "null");
+        }
+
         if(!tokenIs(type)) {
             throw new SyntaxException(type, currentToken.getType());
         }
@@ -148,7 +152,9 @@ public class SyntaxAnalyzer {
     }
 
     private void saveTokenInList() {
-        tokenList.add(currentToken);
+        if (currentToken != null) { 
+            tokenList.add(currentToken);
+        }
     }
 
     private void nextToken() throws Exception {
